@@ -1,0 +1,48 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-01-08 20:20:02
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2020-01-08 20:22:04
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="./plugin/layui/css/layui.css" rel="stylesheet" type="text/css" />
+    <script src="./plugin//jquery-3.2.1.min.js"></script>
+    <script src="./plugin/layui/layui.js"></script>
+</head>
+
+<body>
+    <div class="classification-body">
+        <div class="layui-carousel" id="flCarousel">
+            <div carousel-item>
+                <div>条目1</div>
+                <div>条目2</div>
+                <div>条目3</div>
+                <div>条目4</div>
+                <div>条目5</div>
+            </div>
+        </div>
+    </div>
+    <!-- 条目中可以是任意内容，如：<img src=""> -->
+    <script>
+        layui.use('carousel', function () {
+            var carousel = layui.carousel;
+            //建造实例
+            carousel.render({
+                elem: '#flCarousel'
+                , width: '100%' //设置容器宽度
+                , arrow: 'always' //始终显示箭头
+                //,anim: 'updown' //切换动画方式
+            });
+        });
+    </script>
+</body>
+
+</html>

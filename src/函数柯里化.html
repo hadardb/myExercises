@@ -1,0 +1,38 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-01-02 18:52:07
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2020-01-02 19:04:26
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function add(num1,num2){
+            return num1 + num2
+        }
+
+        // 柯里化后
+        function curry(func){
+            // 保存直接在赋值函数中的参数输入
+            let arr = [].slice.call(arguments,1)
+            // 返回运行函数
+            return function(){
+                let newArr = [...arr,...arguments]
+                console.log(...newArr)
+                return func.call(this,...newArr)
+            }
+        }
+
+        let asd = curry(add,1)
+        console.log(asd(2))
+    </script>
+</body>
+</html>

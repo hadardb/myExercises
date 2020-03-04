@@ -1,0 +1,53 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-01-05 16:14:27
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2020-01-05 17:12:38
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 1
+        const a = {}
+        var b = {key : 'b'}
+        var c = {key : 'c'}
+        a[b] = 123
+        a[c] = 456
+        console.log(a)
+        
+        // 2
+        const numbers = [1,2,3]
+        numbers[10] = 11
+        console.log(numbers)
+        
+        //3
+        function Foo(){
+            getName = function (){ console.log(1)}
+            return this
+        }
+        Foo.getName = function (){ console.log(2)}
+        Foo.prototype.getName = function(){console.log(3)}
+        var getName = function (){console.log(4)}
+        function getName(){
+            console.log(5)
+        }
+        // 请写出下列输出
+        Foo.getName()
+        getName()
+        Foo().getName()
+        getName()
+        new Foo.getName()
+        new Foo().getName()
+        new new Foo().getName()
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-02-19 16:20:41
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-02-19 16:32:34
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用viewer插件</title>
+    <link href="./plugin//viewer.min.css" rel="stylesheet">
+    <script src="./plugin//viewer.min.js"></script>
+    <style>
+        #view{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="view">
+        <div>
+            <img src="./img/404.png" alt="">
+        </div>
+        <div>名字一</div>
+        <div><img src="./img/user.png" alt=""></div>
+        <div>名字2</div>
+    </div>
+
+</body>
+<script>
+    const gallery = new Viewer(document.getElementById('view'));
+</script>
+</html>

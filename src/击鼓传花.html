@@ -1,0 +1,47 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2019-12-30 20:03:14
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2019-12-30 20:16:04
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     // 就是个队列问题
+     /**
+      * @name: 击鼓传花
+      * @param {number}  personNum    共有人数    
+      * @param {number}  eliminate    喊几淘汰    
+      * @return: number         最后剩下的人  是第几个人
+      */
+     function func(personNum,eliminate){
+         // 舒适化数组 并给与编号
+         let arr = []
+         // 当前叫到的号
+         let nowNumber = 1
+         for(let i = 1;i <= personNum; i++){
+             arr.push(i)
+         }
+         while(arr.length>1){
+             let person = arr.shift()
+             if(nowNumber != eliminate){
+                 arr.push(person)
+             }else{
+                 nowNumber = 0
+             }
+             nowNumber++
+         }
+         return arr[0]
+     }
+     console.log(func(3,2))
+    </script>
+</body>
+</html>

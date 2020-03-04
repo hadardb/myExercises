@@ -1,0 +1,109 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-04 10:39:29
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-04 11:09:05
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./plugin/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <div id="num"></div>
+        <div id="increase">加</div>
+        <div id="decrease">减</div>
+    </div>
+    <script>
+        var myapp = {}; // 创建这个应用对象
+
+        myapp.Model = function () {
+            var val = 0; // 需要操作的数据
+
+            /* 操作数据的方法 */
+            this.add = function (v) {
+                if (val < 100) val += v;
+            };
+
+            this.sub = function (v) {
+                if (val > 0) val -= v;
+            };
+
+            this.getVal = function () {
+                return val;
+            };
+
+            // 观察者模式
+            var self = this,
+                views = [];
+
+            this.register = function (view) {
+                views.push(view);
+            };
+
+            this.notify = function () {
+                for (var i = 0; i < views.length; i++) {
+                    views[i].render(self);
+                }
+            };
+        };
+
+        myapp.View = function (controller) {
+
+            /* 视图元素 */
+            var $num = $('#num'),
+                $incBtn = $('#increase'),
+                $decBtn = $('#decrease');
+
+            /* 渲染数据 */
+            this.render = function (model) {
+                $num.text(model.getVal() + 'rmb');
+            };
+
+            /*  绑定事件  */
+            $incBtn.click(controller.increase);
+            $decBtn.click(controller.decrease);
+        };
+
+        myapp.Controller = function () {
+            var model = null,
+                view = null;
+
+            this.init = function () {
+                /* 初始化Model和View */
+                model = new myapp.Model();
+                console.log(this)
+                view = new myapp.View(this);
+
+                /* View向Model注册，当Model更新就会去通知View啦 */
+                model.register(view);
+                model.notify();
+            };
+
+            /* 让Model更新数值并通知View更新视图 */
+            this.increase = function () {
+                model.add(1);
+                model.notify();
+            };
+
+            this.decrease = function () {
+                model.sub(1);
+                model.notify();
+            };
+        };
+
+        (function () {
+            var controller = new myapp.Controller();
+            controller.init();
+        })();
+    </script>
+</body>
+
+</html>

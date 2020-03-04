@@ -1,0 +1,93 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-01-03 10:51:47
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2020-01-03 15:51:47
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 冒泡排序
+        let bubbleSort = function () {
+            // 取第一个数
+            for (let i = 0, length = this.length; i < length; length--) {
+                // 将第一个数与后续数进行比较  较大的放在后面
+                for (let j = 0; j < length - 1; j++) {
+                    // 如果大于后一位数 则交换 
+                    this[j] > this[j + 1] ? this[j] = [this[j + 1], this[j + 1] = this[j]][0] : null
+
+                }
+            }
+        }
+        // 选择排序
+        let selectionSort = function () {
+            for (let i = 0, length = this.length; i < length - 1; i++) {
+
+                let min = i
+
+                // 找到最小值的下标
+                for (let j = i; j < length; j++) {
+                    this[min] > this[j] ? min = j : null
+                }
+                // 交换元素
+
+                this[i] = [this[min], this[min] = this[i]][0]
+            }
+        }
+
+        // 插入排序
+        let insertionSort = function () {
+            for (let i = 0, length = this.length; i < length; i++) {
+                let temp = this[i]
+                let j = i
+                // 比较 找到需要插入的位置 
+                while (j > 0 && temp < this[j - 1]) {
+                    this[j] = this[j - 1]
+                    j--
+                }
+                this[j] = temp
+
+            }
+        }
+
+        // 希尔排序
+        let shellSort = function () {
+            let gap = Math.floor(this.length / 2)
+            while (gap > 0) {
+                // 分组   之后内部插入排序
+                for (let i = gap; i < this.length; i++) {
+                    let temp = this[i]
+                    let t = i
+                    // 对分组进行插入排序
+                    while (t > gap - 1 && this[t - gap] > temp) {
+                        this[t] = this[t - gap]
+                        t -= gap
+                    }
+                    this[t] = temp
+                }
+                gap = Math.floor(gap / 2)
+            }
+
+
+        }
+        Array.prototype.bubbleSort = bubbleSort
+        Array.prototype.selectionSort = selectionSort
+        Array.prototype.insertionSort = insertionSort
+        Array.prototype.shellSort = shellSort
+        let arr = [10, 1, 35, 61, 89, 36, 55]
+        arr.shellSort()
+        console.log(arr)
+    </script>
+</body>
+
+</html>

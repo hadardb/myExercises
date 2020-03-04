@@ -1,0 +1,57 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-01-07 09:29:36
+ * @LastEditors  : Haojin Sun
+ * @LastEditTime : 2020-01-07 17:24:08
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let time = 2000
+        // 无法改变循环的时间
+        // setInterval(function(){
+        //     console.log(time)
+        //     time *=2
+        // },time)
+
+        // 从 早上八点开始的
+        let a = new Date().getTime()
+        const dayOfMs = 86400000  //7500000 86400000
+        let eightToEighteenMs = 7740000 // 早上8点到晚上18点的毫秒数  36000000
+        let nowTimeOfMs = a % dayOfMs // 早上8点到当前的毫秒数
+        let timer = 0 //定时器时间
+        // 1. 时间在8-18之间  则获取余数 设置定时器时间
+        if (nowTimeOfMs < eightToEighteenMs) {
+            timer = eightToEighteenMs - nowTimeOfMs
+        }
+        // 2. 时间在 18-8 之间 则再加上到早上8点的时间
+        else {
+            timer = dayOfMs - nowTimeOfMs + eightToEighteenMs
+        }
+        setTimeout(function () {
+            console.log(new Date())
+        }, timer)
+        
+
+        let newDate = new Date()
+        let hour = newDate.getHours()
+        let minutes = newDate.getMinutes()
+        let seconds = newDate.getSeconds()
+        let year = newDate.getFullYear()
+        let month = newDate.getMonth()
+        let day = newDate.getDate()
+        let weekDay = newDate.getDay()
+    </script>
+</body>
+
+</html>
