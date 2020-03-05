@@ -1,0 +1,42 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-05 12:43:14
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-05 17:14:08
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        window.name = 'window'
+        var name = 'window2'
+        function A() {
+            this.name = 'a'
+            b()
+            function b() {
+                var name = 'b'
+                console.log(this.name)
+            }
+        }
+        let a 
+        A.apply(a)
+        // call apply 的 实现原理 就是将该方法放入对象中调用再删除
+        Function.prototype.call2 = function(context){
+            context.fn = this
+            context.fn()
+            delete context.fn
+        }
+        // A.call2(a)
+        
+    </script>
+</body>
+
+</html>
