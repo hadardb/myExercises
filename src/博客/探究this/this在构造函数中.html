@@ -1,0 +1,26 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-06 13:23:17
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-06 13:38:58
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function B(){
+            this.name = 'b'
+        }
+        let b = new B()
+        let c = new Object()
+        B.apply(c)
+        console.log(c.name)
+    </script>
+</body>
+</html>

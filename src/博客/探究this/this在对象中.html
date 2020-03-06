@@ -3,7 +3,7 @@
  * @Author: Haojin Sun
  * @Date: 2020-03-05 09:20:38
  * @LastEditors: Haojin Sun
- * @LastEditTime: 2020-03-05 10:11:58
+ * @LastEditTime: 2020-03-06 17:35:34
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -25,29 +25,34 @@
         }
     }
 
-    obj.getName()
+    // obj.getName()
 
     let name = 'window'
     let obj2 = {
         name: 'par',
         name2: this.name,
+        a:()=>{ 123 },
+        b: function(){ return 4321},
         son: {
             name: 'even',
+            name2: this.name,
             // 箭头函数下呢
-            getName: () => {
+            getName: function() {
                 console.log(this)           // {}   
                 console.log(this.name)      // undefined
             }
         }
     }
-    console.log(obj2.name2)
+    console.log(obj2.__proto__)
     obj2.son.getName()
 
-    function a(){
-        console.log(this)
-    }
+    // function a(){
+    //     console.log(this)
+    // }
 
-    console.log(a)
+    // let bb = ()=>{ 123 }
+    // console.log(a)
+    // console.log(bb)
 </script>
 
 </html>

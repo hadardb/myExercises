@@ -3,7 +3,7 @@
  * @Author: Haojin Sun
  * @Date: 2020-03-05 12:43:14
  * @LastEditors: Haojin Sun
- * @LastEditTime: 2020-03-05 17:14:08
+ * @LastEditTime: 2020-03-06 10:17:41
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@
                 console.log(this.name)
             }
         }
-        let a 
+        let a = new Object()
         A.apply(a)
         // call apply 的 实现原理 就是将该方法放入对象中调用再删除
         Function.prototype.call2 = function(context){
