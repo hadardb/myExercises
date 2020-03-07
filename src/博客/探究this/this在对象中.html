@@ -3,7 +3,7 @@
  * @Author: Haojin Sun
  * @Date: 2020-03-05 09:20:38
  * @LastEditors: Haojin Sun
- * @LastEditTime: 2020-03-06 17:35:34
+ * @LastEditTime: 2020-03-07 17:25:41
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,38 +18,43 @@
 
 </body>
 <script>
-    let obj = {
-        name: 'even',
-        getName: function () {
-            console.log(this.name)
-        }
-    }
-
-    // obj.getName()
 
     let name = 'window'
+    let name2 = 'window2'
     let obj2 = {
         name: 'par',
-        name2: this.name,
-        a:()=>{ 123 },
-        b: function(){ return 4321},
+        name2: 'par2',
+        b: function(){ return this.name2},
         son: {
             name: 'even',
             name2: this.name,
-            // 箭头函数下呢
+            b: function(){ return this.name2},
             getName: function() {
-                console.log(this)           // {}   
-                console.log(this.name)      // undefined
+                console.log(this.name)       // even
+                console.log(this.name2)      // ''
+                console.log(this.b())       // par2
+            },
+            getName2: ()=>{
+                obj2.son.getName.apply(this)
             }
         }
     }
-    console.log(obj2.__proto__)
     obj2.son.getName()
+    obj2.son.getName2()
 
-    // function a(){
-    //     console.log(this)
-    // }
 
+    function a(){
+        console.log(this)
+    }
+
+    // obj2.son.getName.prototype = null 
+    // obj2.son.getName.arguments = obj2.a.arguments
+    // obj2.son.getName.caller = obj2.a.caller
+
+    // console.log(a.prototype)
+    // obj2.son.getName()
+
+    
     // let bb = ()=>{ 123 }
     // console.log(a)
     // console.log(bb)

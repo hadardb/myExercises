@@ -1,0 +1,32 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-07 15:39:52
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-07 15:45:27
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var name = 'window'
+        let obj = {
+            name: 'even',
+            getName: function () {
+                console.log(this.name)
+            }
+        }
+        let getName = obj.getName.bind(obj)
+        getName()
+    </script>
+</body>
+
+</html>
