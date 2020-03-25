@@ -1,0 +1,37 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-07 12:03:12
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-07 13:51:05
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var name = 'window2'
+        function A() {
+            this.name = 'a'
+            let b = ()=> {
+                var name = 'b'
+                console.log(this.name)
+            }
+            b()
+        }
+        A.prototype.n = '病毒'
+        let a = new A()
+        let b = {}
+        a.apply(b)
+        console.log(b)
+    </script>
+</body>
+
+</html>
