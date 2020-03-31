@@ -1,0 +1,72 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-31 15:13:42
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-31 16:26:05
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let Person = function (name, sex) {
+        this.name = name
+        this.sex = sex
+        function myPrivate(){
+            console.log('只有构造函数内部能够访问')
+        }
+    }
+    Person.like1 = function () {
+        console.log('我先玩')
+    }
+    Person.prototype.like2 = function () {
+        console.log('我先学习')
+    }
+    // 再来复习下new的过程
+    // 1. 创建一个新的对象
+    // 2. 将构造函数的显示原型指向新建对象的隐式原型
+    // 3. 调用构造函数并将this指向新建的空对象
+    // 4. 返回该对象
+    let person1 = new Person('小王', '男')
+
+    // 输出看看
+    console.log(person1)
+    console.log(person1 instanceof Person)      // true
+    console.log(Person instanceof Function)     // true
+    console.log(person1 instanceof Function)    // false    这是为什么呢
+    console.log(person1 instanceof Object)      // true 
+    console.log('isPrototype')
+    // isPrototypeOf
+    console.log(Person.prototype.isPrototypeOf(person1))
+
+
+    console.log(person1.__proto__.__proto__ === Object.prototype)    // true
+    console.log(typeof Object.prototype) // object
+     // setPrototypeOf
+    // 警告: 由于现代 JavaScript 引擎优化属性访问所带来的特性的关系，
+    // 更改对象的 [[Prototype]]在各个浏览器和 JavaScript 引擎上都是一个很慢的操作。
+    // 其在更改继承的性能上的影响是微妙而又广泛的，这不仅仅限于 obj.__proto__ = ... 语句上的时间花费，
+    // 而且可能会延伸到任何代码，那些可以访问任何[[Prototype]]已被更改的对象的代码。如果你关心性能，
+    // 你应该避免设置一个对象的 [[Prototype]]。相反，你应该使用 Object.create()来创建带有你想要的[[Prototype]]的新对象。
+    
+    // let a = new Object()            
+    // a.__proto__ = Person.prototype  // 这样是不好的  应该使用Object.create
+   
+
+    let a = Object.create(Person.prototype) // 应该这样
+    console.log(a)
+    console.log(a instanceof Person)      // true 
+    
+
+</script>
+
+</html>

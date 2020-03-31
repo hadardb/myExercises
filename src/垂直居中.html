@@ -1,0 +1,57 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-26 10:17:54
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-26 10:19:40
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="width: 200px;height: 200px;">
+        <div class="container">
+            <div class="dialog">
+                4123
+            </div>
+        </div>
+    </div>
+    
+</body>
+<style>
+    .container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .5);
+        text-align: center;
+        font-size: 0;
+        white-space: nowrap;
+        overflow: auto;
+    }
+
+    .container:after {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .dialog {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        font-size: 14px;
+        white-space: normal;
+    }
+</style>
+
+</html>

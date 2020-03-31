@@ -1,0 +1,46 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-03-31 16:27:45
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-03-31 16:54:01
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // console.log(Person)
+    class Person {
+        constructor(name, sex) {
+            this.name = name
+            this.sex = sex
+            myPrivate.apply(this)
+            function myPrivate() {
+                console.log('我只能被内部访问')
+            }
+        }
+        // 当需要提取公共方法时 无法定义，只能挂载到实例方法上
+        like() {
+            // myPrivate()
+            console.log('我喜欢')
+        }
+        static like(){
+            console.log('我是静态方法')
+        }
+    }
+    let a = new Person('小王', '男')
+    console.log(a.like())
+    console.log(Person.like)
+</script>
+
+</html>
