@@ -1,0 +1,38 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-04-01 09:55:24
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-04-01 10:01:10
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let a = Foo() //a.id -> 1
+        // let b = new Foo() //b.id -> 2
+        // let c = new Foo() //c.id -> 3
+        // let d = Foo() //d.id -> 4
+
+        let Foo = (function(){
+            let i = 0
+            return function (){
+                this.id = ++i
+                // return {id: i}
+            }
+        })()
+        let a = new Foo()
+        let b = new Foo()
+        console.log(a)
+        console.log(b)
+    </script>
+</body>
+
+</html>

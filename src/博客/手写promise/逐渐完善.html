@@ -1,0 +1,86 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-04-01 13:29:01
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-04-01 16:30:20
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let MyPromise = (function () {
+            return function (fn) {
+                this['[[PromiseStatus]]'] = 'pending'
+                this['[[PromiseValue]]'] = undefined
+                this.asyncArr = {
+                    finishArr: [],
+                    errorArr: []
+                }
+                fn(MyPromise.resolve.bind(this), MyPromise.reject.bind(this))
+            }
+        })()
+
+        MyPromise.resolve = function (res) {
+            this['[[PromiseStatus]]'] = 'fulfilled'
+            this['[[PromiseValue]]'] = res
+            // 遍历finishArr并链式执行
+            while (this.asyncArr.finishArr.length > 0) {
+                this.asyncArr.finishArr.shift()()
+            }
+        }
+        
+        MyPromise.reject = function (res) {
+            this['[[PromiseStatus]]'] = 'rejected'
+            this['[[PromiseValue]]'] = res
+            // 遍历errorArr并链式执行
+            while (this.asyncArr.finishArr.length > 0) {
+                this.asyncArr.errorArr.shift()()
+            }
+        }
+
+        MyPromise.prototype.then = function (fn, onRejected) {
+            // 失败时直接返回 等待和成功都要压入数组中
+            if (this['[[PromiseStatus]]'] === 'rejected') return
+            this.asyncArr.finishArr.push(() => {
+                this['[[PromiseValue]]'] = fn(this['[[PromiseValue]]'])
+            })
+            // 返回自身 进行链式调用
+            return this
+        }
+        MyPromise.prototype.catch = function (fn) {
+            if (this['[[PromiseStatus]]'] === 'fulfilled') return
+            this.asyncArr.errorArr.push(() => {
+                this['[[PromiseValue]]'] = fn(this['[[PromiseValue]]'])
+            })
+            // 返回自身 进行链式调用
+            return this
+        }
+
+        let a = new MyPromise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(1)
+            }, 1000)
+        }).then(function (res) {
+            console.log(res)
+            return 2
+        }).catch(function (res) {
+            console.log(res)
+            return 3
+        })
+
+        a.then(function (res) {
+            console.log(res)
+        })
+        console.log(a)
+    </script>
+</body>
+
+</html>

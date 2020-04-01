@@ -1,0 +1,83 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-04-01 10:06:55
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-04-01 13:33:06
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let MyPromise = (function () {
+            return function (fn) {
+                this['[[PromiseStatus]]'] = 'pending'
+                this['[[PromiseValue]]'] = undefined
+                fn(MyPromise.resolve.bind(this), MyPromise.reject.bind(this))
+            }
+        })()
+        MyPromise.resolve = function (res) {
+            this['[[PromiseStatus]]'] = 'fulfilled'
+            this['[[PromiseValue]]'] = res
+        }
+        MyPromise.reject = function (res) {
+            this['[[PromiseStatus]]'] = 'rejected'
+            this['[[PromiseValue]]'] = res
+            new Error(' Uncaught (in promise)' + res)
+        }
+
+        MyPromise.prototype.then = function (fn) {
+            if (this['[[PromiseStatus]]'] === 'fulfilled') {
+                this['[[PromiseValue]]'] = fn(this['[[PromiseValue]]'])
+            }
+            return this
+        }
+        MyPromise.prototype.catch = function (fn) {
+            if (this['[[PromiseStatus]]'] === 'rejected') {
+                this['[[PromiseValue]]'] = fn(this['[[PromiseValue]]'])
+            }
+            return this
+        }
+
+        // let a = new MyPromise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve(1)
+        //     }, 1000)
+        // }).then(function (res) {
+        //     console.log(res)
+        //     return 2
+        // }).catch(function (res) {
+        //     console.log(res)
+        //     return 3
+        // })
+
+        console.log(
+            new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve(1)
+                }, 1000)
+            })
+                .then(function (res) {
+                    console.log(res)
+                    return res
+                })
+                // .then(function (res) {
+                //     console.log(res)
+                //     return 3
+                // })
+            .catch(function (res) {
+                console.log(res)
+                return res
+            })
+        )
+    </script>
+</body>
+
+</html>
