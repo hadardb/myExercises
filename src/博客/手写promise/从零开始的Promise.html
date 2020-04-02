@@ -1,0 +1,217 @@
+<!--
+ * @name: 文件
+ * @Author: Haojin Sun
+ * @Date: 2020-04-02 09:09:26
+ * @LastEditors: Haojin Sun
+ * @LastEditTime: 2020-04-02 16:55:20
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let MyPromise = (function () {
+            function resolve(res) {
+                this['[[PromiseStatus]]'] = 'fulfilled'
+                this['[[PromiseValue]]'] = res
+                // promise 是一个宏任务  使用 setTimeout 进行模拟
+                setTimeout(() => {
+                    // 遍历finishArr并链式执行
+                    // 遍历执行finally 方法
+                    while (this.finallyArr.length > 0) {
+                        this.finallyArr.shift()()
+                    }
+                    if (this.next) {
+                        this.next()
+                    }
+                    // 方法内部报错了 则将下个promise状态置 rejected
+                    // 方法没有报错 则将下个promise状态置 fulfilled
+                }, 0)
+
+            }
+
+            function reject(res) {
+                this['[[PromiseStatus]]'] = 'rejected'
+                this['[[PromiseValue]]'] = res
+                // 遍历执行finally 方法
+                while (this.finallyArr.length > 0) {
+                    this.finallyArr.shift()()
+                }
+                setTimeout(() => {
+                    if (this.next) {
+                        this.next()
+                    }
+                }, 0)
+
+            }
+            return function (fn) {
+                this['[[PromiseStatus]]'] = 'pending'
+                this['[[PromiseValue]]'] = undefined
+                this.next = null
+                this.finallyArr = []   // 保存所有的finally方法 当改promise当用完前运行内部所有方法
+                fn(resolve.bind(this), reject.bind(this))
+            }
+        })()
+
+
+
+        MyPromise.resolve = function (value) {
+            // 如果是promise类型直接返回
+            if (value instanceof MyPromise) return value
+            return new MyPromise(function (resolve) {
+                resolve(value)
+            })
+        }
+
+        MyPromise.reject = function (value) {
+            // 如果是promise类型直接返回
+            if (value instanceof MyPromise) return value
+            return new MyPromise(function (resolve, reject) {
+                reject(value)
+            })
+        }
+
+        MyPromise.prototype.then = function (onFulfilled, onRejected) {
+            let _self = this    // 记录前一个promise
+            let promise = new MyPromise(function (resolve, reject) {
+                // 将方法保存下来 在上一个的next中进行改变状态操作
+                _self.next = () => {
+                    // 上一个promise的状态 决定调用哪个函数方法
+                    if (_self['[[PromiseStatus]]'] == 'fulfilled') {      // 当前是成功的 则调用 onFulfilled
+                        // 当前promise的状态由 执行的方法决定
+                        try {
+                            let data = onFulfilled(_self['[[PromiseValue]]'])
+                            resolve.call(this, data)   // 成功 则调用 resolve方法
+                        } catch (error) {
+                            console.log(error)
+                            reject.call(this, error)   // 失败则调用 reject
+                        }
+                    }
+                    else if (_self['[[PromiseStatus]]'] == 'rejected') {  // 当前是失败的 则调用 onRejected
+                        // 当前promise的状态由 执行的方法决定
+                        try {
+                            let data = onRejected(_self['[[PromiseValue]]'])
+                            resolve.call(this, data)   // 成功 则调用 resolve方法
+                        } catch (error) {
+                            reject.call(this, error)   // 失败则调用 reject
+                        }
+                    }
+                    // 如果是等待状态 就空
+                }
+            })
+            // 需要返回一个全新的promise 并且这个promise就是当前处理的这个
+            return promise
+        }
+
+
+        MyPromise.prototype.catch = function (onRejected) {
+            // 直接调用then方法 并返回then返回的 promise
+            return MyPromise.prototype.then.call(this, null, onRejected)
+        }
+
+        MyPromise.prototype.finally = function (onFinally) {
+            // 链式调用 但是不会返回新的promise对象
+            this.finallyArr.push(onFinally)
+            return this
+        }
+        // 测试静态resolve 方法
+        // let aa = MyPromise.resolve(123)
+        //     .then(function (res) {
+        //         console.log(res)
+        //         return 1212
+        //     })
+        // console.log('aa')
+        // console.log(aa)
+
+        // let cc = Promise.resolve(123)
+        //     .then(function (res) {
+        //         console.log(res)
+        //         return 1212
+        //     })
+        // console.log('cc')
+        // console.log(cc)
+
+        // 测试静态reject 方法
+        // let bb = MyPromise.reject(new Error('1234'))
+        //     .catch(function (res) {
+        //         console.log(res)
+        //         return 1212
+        //     })
+        // console.log('bb')
+        // console.log(bb)
+
+        // let ddd = Promise.reject( new Error('1234'))
+        // console.log('ddd')
+        // console.log(ddd)
+
+        // 测试 new 创建
+        // let a = new MyPromise(function (resolve, reject) {
+        //     reject(1)
+        // })
+        //     .then(function (res) {
+        //         console.log(res)
+        //         return 2
+        //     },function(res){
+        //         console.log(res)
+        //         throw new Error('我错了')
+        //     })
+        //     .finally(function(){
+        //         console.log('测试finally')
+        //     })
+        //     .finally(function(){
+        //         console.log('测试finally2')
+        //     })
+        //     .catch(function(res){
+        //         console.log(res)
+        //     })
+        //     .then(function (res) {
+        //         console.log(res)
+        //         return 3
+        //     })
+        // console.log('a' + a)
+        // console.log(a)
+        // console.log('===========')
+
+        // let b = new Promise(function (resolve, reject) {
+        //     reject(1)
+        // })
+        // .then(function (res) {
+        //         console.log(res)
+        //         return 2
+        //     },function(res){
+        //         console.log(res)
+        //         throw new Error('我错了')
+        //     })
+        //     .finally(function(){
+        //         console.log('测试finally')
+        //     })
+        //     .finally(function(){
+        //         console.log('测试finally2')
+        //     })
+        //     .catch(function(res){
+        //         console.log(res)
+        //     })
+        //     .then(function (res) {
+        //         console.log(res)
+        //         return 3
+        //     })
+        //     .finally(function(){
+        //         console.log('我完成拉')
+        //         return 123
+        //     })
+        //     .then(function(res){
+        //         console.log(res)
+        //         return 4
+        //     })
+        // console.log('b' + b)
+        // console.log(b)
+    </script>
+</body>
+
+</html>

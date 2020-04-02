@@ -3,7 +3,7 @@
  * @Author: Haojin Sun
  * @Date: 2020-04-01 13:29:01
  * @LastEditors: Haojin Sun
- * @LastEditTime: 2020-04-01 16:18:10
+ * @LastEditTime: 2020-04-02 17:17:00
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -50,54 +50,64 @@
             return this
         }
 
-        let a = new MyPromise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(1)
-            }, 1000)
-        }).then(function (res) {
-            console.log(res)
-            return 2
-        }).catch(function (res) {
-            console.log(res)
-            return 3
+        // let a = new MyPromise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve(1)
+        //     }, 1000)
+        // }).then(function (res) {
+        //     console.log(res)
+        //     return 2
+        // }).catch(function (res) {
+        //     console.log(res)
+        //     return 3
+        // })
+        // console.log(a)
+        // console.log(new Promise(
+        //     function (resolve, reject) {
+        //         reject(1)
+        //     }
+        // )
+        //     .then(function (ok) {
+        //         console.log(ok)
+        //     }, function (err) {
+        //         console.log('出错了')
+        //         console.log(err)
+        //         throw new Error('出错啦')
+        //     })
+        //     .then(function (res) {
+        //         console.log('我是对的')
+        //         console.log(res)
+        //     })
+        //     .catch(function (res) {
+        //         console.log('我是错的1')
+        //         console.log(res)
+        //         throw new Error('出错啦')
+        //     })
+        //     .catch(function (res) {
+        //         console.log('我是错的2')
+        //         console.log(res)
+        //         return res
+        //     })
+        //     .then(function (res) {
+        //         console.log('我变成对的拉')
+        //         // throw new Error('出错啦') 
+        //     })
+        //     .catch(function (res) {
+        //         console.log('我又变成错的拉')
+        //         console.log(res)
+        //         return res
+        //     })
+        // )
+
+        let b = new Promise(function (resolve, reject) {
+            resolve(1)
+        }).then( res =>{
+            return 142
         })
-        console.log(a)
-        console.log(new Promise(
-            function (resolve, reject) {
-                reject(1)
-            }
-        )
-            .then(function (ok) {
-                console.log(ok)
-            }, function (err) {
-                console.log('出错了')
-                console.log(err)
-                throw new Error('出错啦')
-            })
-            .then(function(res){
-                console.log('我是对的')
-                console.log(res)
-            })
-            .catch(function(res){
-                console.log('我是错的1')
-                console.log(res)
-                throw new Error('出错啦') 
-            })
-            .catch(function(res){
-                console.log('我是错的2')
-                console.log(res)
-                return res
-            })
-            .then(function(res){
-                console.log('我变成对的拉')
-                throw new Error('出错啦') 
-            })
-            .catch(function(res){
-                console.log('我又变成错的拉')
-                console.log(res)
-                return res
-            })
-        )
+        console.log(b)
+        b['[[PromiseStatus]]'] = 'rejected'
+
+
     </script>
 </body>
 
